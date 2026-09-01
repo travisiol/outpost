@@ -89,11 +89,39 @@ link" — a half-configured deploy ships a missing button, never a 404.
 ## The dashboard is deliberately empty
 
 Every figure on it is a real zero and both lists are empty states, because
-there is no backend. Inventing a "recent order" to make the layout look
-inhabited would be the one lie on this site a visitor could act on. The URL
-field does real work — it reads the retailer off the hostname — but **Start
-order** and **Connect wallet** are disabled and say why. A control that looks
-live and quietly does nothing costs more trust than one that admits it is off.
+there is no order backend. Inventing a "recent order" to make the layout look
+inhabited would be the one lie on this site a visitor could act on.
+
+Two things on it are real. **Connect wallet** genuinely connects (see below),
+and the URL field reads the retailer off the hostname. **Start order** is still
+disabled and says why — there is nothing behind it yet, and a control that
+looks live and quietly does nothing costs more trust than one that admits it
+is off.
+
+## The wallet
+
+wagmi v3 + viem, injected connectors only, mounted in `app/dashboard/layout.tsx`
+so the landing page ships none of it.
+
+The card has five states and each one exists for a reason: no wallet, ready,
+connecting, wrong network, connected. Two of them are the ones that usually get
+skipped:
+
+**No wallet.** wagmi registers the injected connector whether or not anything
+is there to inject, so `connectors.length` proves nothing — trusting it leaves
+an enabled button that does nothing on click, and the visitor concludes the
+site is broken rather than that they need a wallet. `useWalletAvailable` looks
+for a real provider instead: `window.ethereum`, plus the EIP-6963 announcement
+current wallets use. It starts optimistic so the server and first client render
+agree, then corrects itself.
+
+**Wrong network.** Connected on the wrong chain is not a state anything can be
+paid from, so the dot stays grey, the balance query is disabled, and the card
+offers the switch. Reading a balance off the wrong network returns a confident
+zero, which is worse than reading nothing.
+
+A refused connection prints the wallet's own message. Wallets reject silently
+from the page's point of view, and an unexplained no-op reads as a bug.
 
 ## Motion
 
@@ -117,9 +145,13 @@ backgrounds.
 
 ## Still to do
 
-- Wire a wallet (`wagmi` + `viem`). `WalletCard.tsx` is the only file that has
-  to become interactive; the rest of the dashboard does not need to know.
+- Test the wallet against a real extension. Every state has been exercised
+  against a stubbed EIP-1193 provider, which is not the same thing — in
+  particular, switching to a chain MetaMask has never seen returns error 4902
+  and triggers an "add this network" prompt that no stub reproduces.
 - Give **Start order** a backend — pricing, then an onchain memo per order.
+- Add WalletConnect if mobile wallets matter. `wagmiConfig.ts` is the one file
+  that grows a second connector.
 - Replace the chart series in `HowItWorks.tsx` with a real one.
 - Set `NEXT_PUBLIC_SITE_URL` so metadata and OG tags point at the real domain.
 - Set `NEXT_PUBLIC_X_URL` and `NEXT_PUBLIC_DOCS_URL` — both links stay hidden
