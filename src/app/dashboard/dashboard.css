@@ -412,6 +412,54 @@
   background: var(--dash-text-faint);
 }
 
+/* Green only on the right chain. Connected-but-wrong-network stays grey,
+   because it is not a state anything can be paid from. */
+.dash-wallet-state i[data-live="true"] {
+  background: var(--dash-success);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.16);
+}
+
+.dash-addr {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.dash-balance {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 20px;
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.dash-balance span {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--dash-text-muted);
+}
+
+.dash-wallet-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dash-error {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-radius: var(--dash-radius-sm);
+  background: rgba(239, 68, 68, 0.07);
+  font-size: 13px;
+  line-height: 1.5;
+  color: #b42318;
+}
+
 .dash-wallet-body {
   margin: 0 0 20px;
   font-size: 13.5px;
