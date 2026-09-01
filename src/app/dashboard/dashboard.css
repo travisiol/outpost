@@ -1,0 +1,542 @@
+/*
+ * The dashboard is a different room from the landing page, and it should look
+ * like one. The page out front is black, loud and set at 120px; this is white,
+ * quiet and set at 14. Same typeface, opposite volume — the pitch is over, and
+ * what is left is a tool someone has to read numbers off.
+ *
+ * Lime replaces violet as the accent here for one reason: on the landing page
+ * the accent means "brand", and in a dashboard it has to mean "live". A colour
+ * that shouts is right for a status dot and wrong for a headline.
+ */
+
+.dash {
+  --dash-bg: #ffffff;
+  --dash-bg-soft: #fafafb;
+  --dash-bg-tint: #f6f7f9;
+
+  --dash-text: #0d0f11;
+  --dash-text-soft: #475569;
+  --dash-text-muted: #94a3b8;
+  --dash-text-faint: #cbd5e1;
+
+  --dash-border: rgba(15, 17, 27, 0.06);
+  --dash-border-strong: rgba(15, 17, 27, 0.1);
+
+  --dash-accent: #ccff01;
+  --dash-accent-ink: #10130a;
+  --dash-accent-strong: #5f7a00;
+  --dash-accent-soft: rgba(204, 255, 1, 0.2);
+
+  --dash-success: #10b981;
+
+  --dash-shadow-sm: 0 1px 2px rgba(16, 18, 27, 0.04), 0 4px 12px rgba(16, 18, 27, 0.04);
+  --dash-shadow-md: 0 1px 2px rgba(16, 18, 27, 0.04), 0 8px 24px rgba(16, 18, 27, 0.06);
+
+  --dash-radius-sm: 12px;
+  --dash-radius: 18px;
+  --dash-radius-lg: 24px;
+
+  min-height: 100vh;
+  background: var(--dash-bg-tint);
+  color: var(--dash-text);
+  padding-bottom: 80px;
+}
+
+.dash-shell {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* -------------------------------------------------------------------- bar */
+
+.dash-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+  margin-bottom: 34px;
+  border-bottom: 1px solid var(--dash-border);
+}
+
+.dash-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--dash-text);
+  text-decoration: none;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.dash-mark svg {
+  width: 23px;
+  height: 23px;
+}
+
+.dash-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dash-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 999px;
+  padding: 11px 18px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.dash-btn-ghost {
+  background: transparent;
+  color: var(--dash-text-soft);
+  box-shadow: inset 0 0 0 1px var(--dash-border-strong);
+}
+
+.dash-btn-ghost:hover {
+  color: var(--dash-text);
+  background: var(--dash-bg);
+}
+
+.dash-btn-primary {
+  background: var(--dash-text);
+  color: #fff;
+}
+
+.dash-btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.dash-btn-accent {
+  background: var(--dash-accent);
+  color: var(--dash-accent-ink);
+}
+
+.dash-btn-accent:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.dash-btn:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+/* ----------------------------------------------------------------- header */
+
+.dash-eyebrow {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dash-text-muted);
+}
+
+.dash-title {
+  margin: 0 0 12px;
+  font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.dash-lede {
+  margin: 0 0 36px;
+  max-width: 62ch;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--dash-text-soft);
+}
+
+/* ------------------------------------------------------------------ cards */
+
+.dash-card {
+  background: var(--dash-bg);
+  border-radius: var(--dash-radius-lg);
+  box-shadow: var(--dash-shadow-sm);
+  padding: 24px;
+}
+
+.dash-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.dash-card-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.dash-card-sub {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--dash-text-muted);
+}
+
+/* ------------------------------------------------------------------ stats */
+
+.dash-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 14px;
+  padding: 0;
+  list-style: none;
+}
+
+.dash-stat {
+  background: var(--dash-bg);
+  border-radius: var(--dash-radius);
+  box-shadow: var(--dash-shadow-sm);
+  padding: 20px;
+}
+
+.dash-stat-label {
+  margin: 0 0 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dash-text-muted);
+}
+
+.dash-stat-value {
+  margin: 0 0 6px;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.dash-stat-note {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--dash-text-muted);
+}
+
+/* ------------------------------------------------------------------- grid */
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+/* --------------------------------------------------------------- checkout */
+
+.dash-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 999px;
+  background: var(--dash-accent-soft);
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dash-accent-strong);
+}
+
+.dash-live i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--dash-accent-strong);
+  animation: dash-dot 2.2s ease-out infinite;
+}
+
+@keyframes dash-dot {
+  0% {
+    box-shadow: 0 0 0 0 rgba(95, 122, 0, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 9px rgba(95, 122, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(95, 122, 0, 0);
+  }
+}
+
+.dash-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--dash-bg-tint);
+  border-radius: 999px;
+  padding: 6px 6px 6px 20px;
+  box-shadow: inset 0 0 0 1px var(--dash-border);
+  transition: box-shadow 0.25s ease;
+}
+
+.dash-field:focus-within {
+  box-shadow: inset 0 0 0 1.5px var(--dash-accent-strong);
+}
+
+.dash-field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 15px;
+  color: var(--dash-text);
+  padding: 12px 0;
+  outline: none;
+}
+
+.dash-field input::placeholder {
+  color: var(--dash-text-faint);
+}
+
+.dash-detect {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--dash-text-muted);
+}
+
+.dash-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  background: var(--dash-bg-tint);
+  padding: 5px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--dash-text-soft);
+}
+
+.dash-chip[data-found="true"] {
+  background: var(--dash-accent-soft);
+  color: var(--dash-accent-strong);
+}
+
+.dash-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.dash-token {
+  border: 0;
+  border-radius: var(--dash-radius-sm);
+  background: var(--dash-bg-tint);
+  padding: 12px 16px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px transparent;
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.dash-token:hover {
+  background: #eef0f4;
+}
+
+.dash-token[aria-pressed="true"] {
+  background: var(--dash-bg);
+  box-shadow: inset 0 0 0 1.5px var(--dash-text);
+}
+
+.dash-token-sym {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.dash-token-name {
+  display: block;
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--dash-text-muted);
+}
+
+/* A form that cannot submit has to say so where the button is, not in a toast
+   that appears after the click and blames the user for trying. */
+.dash-note {
+  margin: 18px 0 0;
+  padding: 14px 16px;
+  border-radius: var(--dash-radius-sm);
+  background: var(--dash-bg-soft);
+  box-shadow: inset 0 0 0 1px var(--dash-border);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--dash-text-soft);
+}
+
+/* ----------------------------------------------------------------- wallet */
+
+.dash-wallet-state {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dash-wallet-state i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dash-text-faint);
+}
+
+.dash-wallet-body {
+  margin: 0 0 20px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--dash-text-muted);
+}
+
+/* ------------------------------------------------------------ empty state */
+
+.dash-empty {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 44px 20px;
+  border-radius: var(--dash-radius);
+  background: var(--dash-bg-soft);
+  box-shadow: inset 0 0 0 1px var(--dash-border);
+  text-align: center;
+}
+
+.dash-empty-title {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.dash-empty-body {
+  margin: 0;
+  max-width: 46ch;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--dash-text-muted);
+}
+
+/* -------------------------------------------------------------- lifecycle */
+
+.dash-steps {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.dash-step {
+  position: relative;
+  padding: 16px;
+  border-radius: var(--dash-radius-sm);
+  background: var(--dash-bg-tint);
+}
+
+.dash-step-num {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  background: var(--dash-bg);
+  box-shadow: inset 0 0 0 1px var(--dash-border-strong);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dash-text-soft);
+}
+
+.dash-step-label {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.dash-steps-note {
+  margin: 0;
+  max-width: 82ch;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--dash-text-muted);
+}
+
+/* ------------------------------------------------------------ breakpoints */
+
+@media (max-width: 1000px) {
+  .dash-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dash-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dash-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .dash-shell {
+    padding: 0 16px;
+  }
+
+  .dash-stats,
+  .dash-steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dash-field {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: var(--dash-radius);
+    padding: 6px;
+  }
+
+  .dash-field input {
+    padding: 12px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash-live i {
+    animation: none;
+  }
+
+  .dash-btn {
+    transition: none;
+  }
+}

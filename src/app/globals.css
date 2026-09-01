@@ -1,0 +1,424 @@
+@import "tailwindcss";
+@import "./sections.css";
+
+/*
+ * PAYPORT — buy anything, pay onchain.
+ *
+ * An editorial commerce page, not a dashboard. Three ideas carry it:
+ *
+ * 1. Type does the shouting. One family (Inter) across one weight range, but
+ *    an enormous size range — 13px legal copy sits under a 120px headline and
+ *    a 192px marquee. The headline is set at weight 400, not 700: at that
+ *    size a bold face turns into a wall, and the thin one reads as confidence
+ *    rather than volume.
+ *
+ * 2. Sections alternate black and paper. The page is a stack of full-bleed
+ *    blocks with a 12px gutter around the dark ones, so they read as objects
+ *    laid on the page rather than bands running through it. That inset is the
+ *    single most recognisable move in the layout — remove it and this becomes
+ *    an ordinary landing page.
+ *
+ * 3. Colour is rationed. The ground is black, paper and five greys. Three
+ *    muted card colours (bone, peach, dusty blue) carry the feature set, and
+ *    exactly one saturated accent — electric violet — is allowed, reserved
+ *    for the marquee and for anything that means "money moved".
+ */
+
+:root {
+  /* Ink. Headings sit cooler and darker than body copy; at 36px+ the body
+     grey reads washed out against a black section. */
+  --ink: #242424;
+  --ink-strong: #101014;
+  --ink-nav: #2e2f30;
+  --ink-muted: #888888;
+  --ink-faint: #999999;
+
+  /* Paper. Five steps between white and the darkest grey any section uses. */
+  --paper: #ffffff;
+  --paper-warm: #f8f5f2;
+  --paper-tint: #f4f4f4;
+  --paper-shade: #f1f1f1;
+  --paper-deep: #e8e8e8;
+  --paper-line: #e1e1e1;
+
+  --void: #000000;
+  --void-raised: #101014;
+
+  /* The one saturated colour on the page. Violet is the accent; lime is a
+     second signal used only on live/status chips so it never competes. */
+  --accent: #5e00ff;
+  --accent-soft: #8b5cf6;
+  --accent-tint: rgba(94, 0, 255, 0.08);
+  --signal: #ccff01;
+
+  /* Feature cards. Deliberately desaturated — each has to hold 36px black
+     type and a row of translucent white pills without either going soft. */
+  --card-bone: #e4e3df;
+  --card-peach: #f1ae86;
+  --card-blue: #90a6d0;
+
+  --rule: rgba(0, 0, 0, 0.08);
+  --rule-light: rgba(255, 255, 255, 0.16);
+
+  /* Radii. 44px is the pill every control uses; 7px is the card. The gap
+     between them is deliberate — nothing on this page is half-rounded. */
+  --r-pill: 44px;
+  --r-tag: 40px;
+  --r-block: 30px;
+  --r-card: 7px;
+
+  --gutter: 12px;
+  --container: 1688px;
+  --container-pad: 40px;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-strong: var(--ink-strong);
+  --color-ink-nav: var(--ink-nav);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-paper: var(--paper);
+  --color-paper-warm: var(--paper-warm);
+  --color-paper-tint: var(--paper-tint);
+  --color-paper-shade: var(--paper-shade);
+  --color-paper-deep: var(--paper-deep);
+  --color-paper-line: var(--paper-line);
+  --color-void: var(--void);
+  --color-void-raised: var(--void-raised);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-signal: var(--signal);
+  --color-card-bone: var(--card-bone);
+  --color-card-peach: var(--card-peach);
+  --color-card-blue: var(--card-blue);
+
+  --font-sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: clip;
+  width: 100%;
+  max-width: 100%;
+  background: var(--paper);
+}
+
+/* Lenis drives the scroll; native smooth behaviour would fight it. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background: var(--paper);
+  overflow-x: clip;
+  width: 100%;
+  max-width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ----------------------------------------------------------------- layout */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+@media (max-width: 720px) {
+  :root {
+    --container-pad: 20px;
+    --gutter: 8px;
+    --r-block: 22px;
+  }
+}
+
+/* Dark blocks float inside a gutter instead of running edge to edge. */
+.inset-block {
+  padding: var(--gutter);
+}
+
+.inset-block > * {
+  border-radius: var(--r-block);
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------- typography */
+
+.display {
+  font-size: clamp(2.75rem, 9.4vw, 7.5rem);
+  line-height: 0.9;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.headline {
+  font-size: clamp(1.75rem, 3.6vw, 3.125rem);
+  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.subhead {
+  font-size: clamp(1.375rem, 2.8vw, 2.25rem);
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* The section counter — "01 — Features". Grey, small, never bold. */
+.section-num {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.05;
+  color: var(--ink-faint);
+  margin: 0;
+}
+
+.body-sm {
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/* -------------------------------------------------------------- marquees */
+
+.marquee {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  user-select: none;
+}
+
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--marquee-gap, 3.5rem);
+  padding-right: var(--marquee-gap, 3.5rem);
+  min-width: 100%;
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+
+.marquee[data-direction="right"] .marquee-track {
+  animation-direction: reverse;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* The violet band between hero and features — 192px at desktop width. */
+.marquee-display {
+  font-size: clamp(3rem, 15vw, 12rem);
+  font-weight: 500;
+  line-height: 1.21;
+  color: var(--accent-soft);
+  white-space: nowrap;
+  margin: 0;
+}
+
+/* -------------------------------------------------------------- controls */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  border-radius: var(--r-pill);
+  padding: 18px 26px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  overflow: hidden;
+  text-decoration: none;
+  background: var(--paper);
+  color: var(--ink-nav);
+  transition: color 0.35s ease;
+}
+
+/* Controls fill from the bottom on hover rather than swapping colour. The
+   sweep is what makes the page feel built rather than assembled. */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ink-strong);
+  transform: translateY(101%);
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: 0;
+}
+
+.btn:hover::before {
+  transform: translateY(0);
+}
+
+.btn:hover {
+  color: var(--paper);
+}
+
+.btn > * {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-dark {
+  background: var(--ink-strong);
+  color: var(--paper);
+}
+
+.btn-dark::before {
+  background: var(--accent);
+}
+
+.btn-dark:hover {
+  color: var(--paper);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.btn-accent::before {
+  background: var(--ink-strong);
+}
+
+/* Pill tags inside the feature cards. */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--r-tag);
+  background: rgba(255, 255, 255, 0.55);
+  padding: 3px 14px 4px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  color: var(--ink-strong);
+  white-space: nowrap;
+}
+
+.tag-dark {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* --------------------------------------------------------- scroll reveals */
+
+/*
+ * Lines mask upward out of a clipped parent.
+ *
+ * The hidden state lives inside `@media (scripting: enabled)`, so content is
+ * only ever hidden where a script is guaranteed to run and take the mask back
+ * off. Hiding copy behind JavaScript that might not execute is how a landing
+ * page ends up blank for a crawler or a blocked script — this way the failure
+ * direction is "no animation", never "no page".
+ *
+ * A browser that does not know the `scripting` feature simply never matches,
+ * which fails the same safe way.
+ */
+.reveal-line {
+  display: block;
+  overflow: hidden;
+}
+
+.reveal-inner {
+  display: block;
+  transition:
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.9s ease;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.fade-up {
+  transition:
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.8s ease;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+@media (scripting: enabled) {
+  .reveal-inner {
+    transform: translateY(105%);
+    opacity: 0;
+  }
+
+  [data-revealed="true"] .reveal-inner {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  [data-revealed="true"].fade-up,
+  [data-revealed="true"] .fade-up {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-inner,
+  .fade-up {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  /* Everything that loops, drifts, spins or pulses. Listed explicitly rather
+     than as `* { animation: none }` so a future animation has to be considered
+     here on purpose instead of being silenced by accident. */
+  .marquee-track,
+  .hero-coin,
+  .hero-caret,
+  .hero-title .reveal-inner,
+  .hero-mark,
+  .hero-nav,
+  .hero-actions,
+  .hero-scroll,
+  .hero-scroll-ring,
+  .hero-chain-dot,
+  .feature-art,
+  .phone-left,
+  .phone-right {
+    animation: none !important;
+  }
+}
